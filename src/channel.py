@@ -43,6 +43,8 @@ class Channel:
 
     def print_info(self) -> None:
         """Выводит в консоль информацию о канале."""
+        channel = self.youtube.channels().list(id=self.channel_id, part='snippet,statistics').execute()
+        print(channel)
         print(f"Title: {self.title}")
         print(f"Description: {self.description}")
         print(f"Custom URL: {self.custom_url}")
