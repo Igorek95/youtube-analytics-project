@@ -9,7 +9,7 @@ if __name__ == '__main__':
     print(moscowpython.url)  # https://www.youtube.com/channel/UC-OVMPlMA3-YCIeg4z5z23A
 
     # менять не можем
-    moscowpython.channel_id = 'https://www.youtube.com/channel/UC-OVMPlMA3-YCIeg4z5z23A'
+    moscowpython.channel_id = 'Новое значение'
     # AttributeError: property 'channel_id' of 'Channel' object has no setter
 
     # можем получить объект для работы с API вне класса
@@ -27,7 +27,7 @@ if __name__ == '__main__':
     print(pythontoday.url)  # https://www.youtube.com/channel/UC-OVMPlMA3-YCIeg4z5z23A
 
     # менять не можем
-    pythontoday.channel_id = 'https://www.youtube.com/channel/UCrWWcscvUWaqdQJLQQGO6BA'
+    pythontoday.channel_id = 'Новое значение'
     # AttributeError: property 'channel_id' of 'Channel' object has no setter
 
     # можем получить объект для работы с API вне класса

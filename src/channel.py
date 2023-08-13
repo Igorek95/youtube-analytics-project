@@ -9,10 +9,9 @@ class Channel:
     api_key: str = os.getenv('YT_API_KEY')
     youtube = build('youtube', 'v3', developerKey=api_key)
 
-
     def __init__(self, channel_id: str) -> None:
         """Экземпляр инициализируется id канала. Дальше все данные будут подтягиваться по API."""
-        self.channel_id = channel_id
+        self.__channel_id = channel_id
         self.title = None
         self.description = None
         self.custom_url = None
@@ -24,10 +23,20 @@ class Channel:
 
         self.update_info()  # Вызываем метод для обновления информации о канале
 
+    @property
+    def channel_id(self):
+        """Возвращает ID канала."""
+        return self.__channel_id
+
+    @channel_id.setter
+    def channel_id(self, value):
+        """Устанавливает новое значение ID канала."""
+        self.__channel_id = value
+        self.update_info()
 
     def update_info(self):
         """Обновляет информацию о канале из YouTube API."""
-        channel = self.youtube.channels().list(id=self.channel_id, part='snippet,statistics').execute()
+        channel = self.youtube.channels().list(id=self.__channel_id, part='snippet,statistics').execute()
         if 'items' in channel and len(channel['items']) > 0:
             snippet = channel['items'][0]['snippet']
             statistics = channel['items'][0]['statistics']
@@ -43,8 +52,6 @@ class Channel:
 
     def print_info(self) -> None:
         """Выводит в консоль информацию о канале."""
-        channel = self.youtube.channels().list(id=self.channel_id, part='snippet,statistics').execute()
-        print(channel)
         print(f"Title: {self.title}")
         print(f"Description: {self.description}")
         print(f"Custom URL: {self.custom_url}")
@@ -57,7 +64,7 @@ class Channel:
     @property
     def url(self):
         """Возвращает ссылку на канал."""
-        return f"https://www.youtube.com/channel/{self.channel_id}"
+        return f"https://www.youtube.com/channel/{self.__channel_id}"
 
     @staticmethod
     def get_service():
@@ -78,4 +85,3 @@ class Channel:
         }
         with open(filename, 'w') as json_file:
             json.dump(data, json_file, indent=4)
-
