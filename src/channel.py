@@ -28,11 +28,6 @@ class Channel:
         """Возвращает ID канала."""
         return self.__channel_id
 
-    @channel_id.setter
-    def channel_id(self, value):
-        """Устанавливает новое значение ID канала."""
-        self.__channel_id = value
-        self.update_info()
 
     def update_info(self):
         """Обновляет информацию о канале из YouTube API."""
