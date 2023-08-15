@@ -23,6 +23,33 @@ class Channel:
 
         self.update_info()  # Вызываем метод для обновления информации о канале
 
+    def __str__(self):
+        return f'{self.title} -> {self.url}'
+
+    def __add__(self, other):
+        return self.subscriber_count + other.subscriber_count
+
+    def __sub__(self, other):
+        return self.subscriber_count - other.subscriber_count
+
+    def __lt__(self, other):
+        return self.subscriber_count < other.subscriber_count
+
+    def __le__(self, other):
+        return self.subscriber_count <= other.subscriber_count
+
+    def __eq__(self, other):
+        return self.subscriber_count == other.subscriber_count
+
+    def __ne__(self, other):
+        return self.subscriber_count != other.subscriber_count
+
+    def __gt__(self, other):
+        return self.subscriber_count > other.subscriber_count
+
+    def __ge__(self, other):
+        return self.subscriber_count >= other.subscriber_count
+
     @property
     def channel_id(self):
         """Возвращает ID канала."""
@@ -42,7 +69,7 @@ class Channel:
             self.published_at = snippet.get('publishedAt', None)
             self.thumbnail_url = snippet['thumbnails']['medium']['url']
             self.view_count = statistics.get('viewCount', None)
-            self.subscriber_count = statistics.get('subscriberCount', None)
+            self.subscriber_count = int(statistics.get('subscriberCount', None))
             self.video_count = statistics.get('videoCount', None)
 
     def print_info(self) -> None:
