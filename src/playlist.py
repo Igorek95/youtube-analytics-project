@@ -5,14 +5,42 @@ from googleapiclient.discovery import build
 
 
 class PlayList:
+    """
+    Класс, представляющий плейлист на YouTube.
+
+    Атрибуты:
+        api_key (str): Ключ API YouTube из переменных окружения.
+        youtube (googleapiclient.discovery.Resource): Клиент API YouTube.
+        id (str): ID плейлиста.
+        title (str): Название плейлиста.
+        url (str): Ссылка на плейлист.
+
+    Методы:
+        __init__(self, _id_: str): Инициализирует экземпляр класса PlayList.
+        get_playlist_info(self): Получает название и URL плейлиста.
+        total_duration(self): Возвращает общую продолжительность всех видео в плейлисте.
+        show_best_video(self): Возвращает ссылку на самое популярное видео в плейлисте.
+    """
     api_key: str = os.getenv('YT_API_KEY')
     youtube = build('youtube', 'v3', developerKey=api_key)
 
     def __init__(self, _id_: str):
+        """
+        Инициализация экземпляра класса PlayList.
+
+        Аргументы:
+            _id_ (str): ID плейлиста.
+        """
         self.id = _id_
         self.title, self.url = self.get_playlist_info()
 
     def get_playlist_info(self):
+        """
+        Получает название и URL плейлиста.
+
+        Возвращает:
+            tuple: Кортеж, содержащий название и URL плейлиста.
+        """
         playlist_response = self.youtube.playlists().list(
             id=self.id,
             part='snippet',
@@ -22,6 +50,9 @@ class PlayList:
 
     @property
     def total_duration(self):
+        """
+        Возвращает общую продолжительность всех видео в плейлисте.
+        """
         playlist_videos = self.youtube.playlistItems().list(
             playlistId=self.id,
             part='contentDetails',
@@ -43,6 +74,10 @@ class PlayList:
         return datetime.timedelta(seconds=total_seconds)
 
     def show_best_video(self):
+        """
+        Возвращает:
+            str: Ссылка на самое популярное видео, или None, если подходящего видео не найдено.
+        """
         playlist_videos = self.youtube.playlistItems().list(
             playlistId=self.id,
             part='snippet',
@@ -67,4 +102,3 @@ class PlayList:
             return f"https://youtu.be/{best_video_id}"
         else:
             return None
-
